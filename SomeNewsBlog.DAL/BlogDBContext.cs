@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SomeNewsBlog.DAL.Models;
+using SomeNewsBlog.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

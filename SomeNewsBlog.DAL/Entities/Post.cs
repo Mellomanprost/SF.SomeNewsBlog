@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SomeNewsBlog.DAL.Models
+namespace SomeNewsBlog.DAL.Entities
 {
-    public class Comment
+    public class Post
     {
         public Guid Id { get; set; }
+        public string? Title { get; set; }
         public string? Content { get; set; }
         public DateTime DateAdd { get; set; }
 
         public Guid UserId { get; set; }
         public User? User { get; set; }
-        public Guid PostId { get; set; }
-        public Post? Post { get; set; }
+        public List<Tag> Tags { get; set; } = new();
+        public List<Comment> Comments { get; set; } = new();
     }
 }

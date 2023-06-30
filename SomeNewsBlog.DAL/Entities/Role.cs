@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SomeNewsBlog.DAL.Models
+namespace SomeNewsBlog.DAL.Entities
 {
     public class Role : IdentityRole
     {

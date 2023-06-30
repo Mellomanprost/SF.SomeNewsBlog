@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SomeNewsBlog.DAL.Models;
+using SomeNewsBlog.BLL.Models;
 using System.Diagnostics;
 
 namespace SomeNewsBlog.BLL.Controllers
