@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SomeNewsBlog.DAL
 {
-    public class BlogDBContext : DbContext
+    public class BlogDbContext : DbContext
     {
         /// Ссылка на таблицу Posts
         public DbSet<Post>? Posts { get; set; }
@@ -18,7 +18,7 @@ namespace SomeNewsBlog.DAL
         /// Ссылка на таблицу Comments
         public DbSet<Comment>? Comments { get; set; }
 
-        public BlogDBContext(DbContextOptions<BlogDBContext> options) : base(options)
+        public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }

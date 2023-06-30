@@ -10,7 +10,7 @@ namespace SomeNewsBlogProject
             var builder = WebApplication.CreateBuilder(args);
 
             string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<BlogDBContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
+            builder.Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("SomeNewsBlogProject")), ServiceLifetime.Singleton);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

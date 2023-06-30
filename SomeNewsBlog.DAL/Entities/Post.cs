@@ -13,8 +13,8 @@ namespace SomeNewsBlog.DAL.Entities
         public string? Content { get; set; }
         public DateTime DateAdd { get; set; }
 
-        public Guid UserId { get; set; }
-        public User? User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; } = null!;
         public List<Tag> Tags { get; set; } = new();
         public List<Comment> Comments { get; set; } = new();
     }
