@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SomeNewsBlog.BLL.Models
+namespace SomeNewsBlog.BLL.Controllers
 {
-    internal class CommentModel
+    internal class TagController
     {
     }
 }
