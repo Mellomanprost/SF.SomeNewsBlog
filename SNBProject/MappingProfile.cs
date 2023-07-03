@@ -13,7 +13,7 @@ namespace SNBProject
         {
             CreateMap<UserRegisterViewModel, User>()
                 .ForMember(x => x.Email, opt => opt.MapFrom(c => c.Email))
-                .ForMember(x => x.Login, opt => opt.MapFrom(c => c.Login));
+                .ForMember(x => x.UserName, opt => opt.MapFrom(c => c.UserName));
 
             CreateMap<CommentCreateViewModel, Comment>();
             CreateMap<CommentEditViewModel, Comment>();

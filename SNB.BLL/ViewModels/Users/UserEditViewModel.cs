@@ -21,7 +21,7 @@ namespace SNB.BLL.ViewModels.Users
 
         [DataType(DataType.Text)]
         [Display(Name = "Никнейм", Prompt = "Никнейм")]
-        public string? Login { get; set; }
+        public string? UserName { get; set; }
 
         [EmailAddress]
         [Display(Name = "Почта")]
