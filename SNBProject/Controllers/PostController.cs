@@ -54,9 +54,9 @@ namespace SNBProject.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            model.AuthorId = user.Id;
+            model.UserId = user.Id;
 
-            if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Body))
+            if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Content))
             {
                 ModelState.AddModelError("", "Не все поля заполненны");
 
@@ -88,7 +88,7 @@ namespace SNBProject.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPost(PostEditViewModel model, Guid Id)
         {
-            if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Body))
+            if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Content))
             {
                 ModelState.AddModelError("", "Не все поля заполненны");
 
@@ -140,4 +140,4 @@ namespace SNBProject.Controllers
         }
     }
 }
-}
+

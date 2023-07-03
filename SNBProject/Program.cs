@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SNB.BLL.Services;
+using SNB.BLL.Services.IServices;
 using SNB.DAL;
 using SNB.DAL.Models;
 using SNB.DAL.Repositories;
@@ -14,7 +16,7 @@ namespace SNBProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+            string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("SNBProject")), ServiceLifetime.Singleton)
                 .AddIdentity<User, IdentityRole>(opts => {
                     opts.Password.RequiredLength = 5;
@@ -25,11 +27,6 @@ namespace SNBProject
                 })
                 .AddEntityFrameworkStores<BlogDbContext>();
 
-            // регистрация сервисов репозитория для взаимодействия с базой данных
-            builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
-            builder.Services.AddSingleton<IPostRepository, PostRepository>();
-            builder.Services.AddSingleton<ITagRepository, TagRepository>();
-
             var mapperConfig = new MapperConfiguration((v) =>
             {
                 v.AddProfile(new MappingProfile());
@@ -37,10 +34,18 @@ namespace SNBProject
 
             IMapper mapper = mapperConfig.CreateMapper();
 
-            builder.Services.AddSingleton(mapper);
-
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            // регистрация сервисов репозитория для взаимодействия с базой данных
+            builder.Services.AddSingleton(mapper)
+                .AddTransient<ICommentRepository, CommentRepository>()
+                .AddTransient<IPostRepository, PostRepository>()
+                .AddTransient<ITagRepository, TagRepository>()
+                .AddTransient<IAccountService, AccountService>()
+                .AddTransient<ICommentService, CommentService>()
+                .AddTransient<IHomeService, HomeService>()
+                .AddTransient<IPostService, PostService>()
+                .AddTransient<IRoleService, RoleService>()
+                .AddTransient<ITagService, TagService>()
+                .AddControllersWithViews();
 
             var app = builder.Build();
 
@@ -54,9 +59,7 @@ namespace SNBProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
