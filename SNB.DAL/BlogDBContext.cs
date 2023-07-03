@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SNB.DAL.Models;
 
 namespace SNB.DAL
 {
-    public class BlogDbContext : DbContext
+    public class BlogDbContext : IdentityDbContext<User>
     {
         /// Ссылка на таблицу Posts
         public DbSet<Post>? Posts { get; set; }

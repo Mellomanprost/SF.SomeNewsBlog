@@ -1,4 +1,4 @@
-namespace SNBProject.Models
+namespace SNBProject.ViewModels
 {
     public class ErrorViewModel
     {
