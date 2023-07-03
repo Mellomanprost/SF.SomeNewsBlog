@@ -26,29 +26,29 @@ namespace SNB.BLL.Services
 
         public async Task GenerateData()
         {
-            var userAdmin = new UserRegisterViewModel { Login = "Admin", Email = "Admin@gmail.com", Password = "123456", FirstName = "Ivan", LastName = "Ivanov" };
-            var userModer = new UserRegisterViewModel { Login = "Moderator", Email = "Moderator@gmail.com", Password = "123456", FirstName = "Sergey", LastName = "Sergeev" };
-            var userRole = new UserRegisterViewModel { Login = "User", Email = "User@gmail.com", Password = "123456", FirstName = "Petr", LastName = "Petrov" };
+            var testUser = new UserRegisterViewModel { Login = "Admin", Email = "Admin@gmail.com", Password = "123456", FirstName = "Ivan", LastName = "Ivanov" };
+            var testUser2 = new UserRegisterViewModel { Login = "Moder", Email = "Moderator@gmail.com", Password = "123456", FirstName = "Sergey", LastName = "Sergeev" };
+            var testUser3 = new UserRegisterViewModel { Login = "User", Email = "User@gmail.com", Password = "123456", FirstName = "Petr", LastName = "Petrov" };
 
-            var user = _mapper.Map<User>(userAdmin);
-            var user1 = _mapper.Map<User>(userModer);
-            var user2 = _mapper.Map<User>(userRole);
+            var user = _mapper.Map<User>(testUser);
+            var user2 = _mapper.Map<User>(testUser2);
+            var user3 = _mapper.Map<User>(testUser3);
 
-            var roleUser = new Role() { Name = "Пользователь", Description = "Имеет ограничения, ограниченные права доступа" };
+            var userRole = new Role() { Name = "Пользователь", Description = "Имеет ограничения, ограниченные права доступа" };
             var moderRole = new Role() { Name = "Модератор", Description = "Имеет права модератора, частичные права доступа" };
             var adminRole = new Role() { Name = "Администратор", Description = "Не имеет ограничений, все права доступны" };
 
-            await _userManager.CreateAsync(user, userAdmin.Password);
-            await _userManager.CreateAsync(user1, userModer.Password);
-            await _userManager.CreateAsync(user2, userRole.Password);
+            await _userManager.CreateAsync(user, testUser.Password);
+            await _userManager.CreateAsync(user2, testUser2.Password);
+            await _userManager.CreateAsync(user3, testUser3.Password);
 
-            await _roleManager.CreateAsync(roleUser);
+            await _roleManager.CreateAsync(userRole);
             await _roleManager.CreateAsync(moderRole);
             await _roleManager.CreateAsync(adminRole);
 
             await _userManager.AddToRoleAsync(user, adminRole.Name);
-            await _userManager.AddToRoleAsync(user1, moderRole.Name);
-            await _userManager.AddToRoleAsync(user2, roleUser.Name);
+            await _userManager.AddToRoleAsync(user2, moderRole.Name);
+            await _userManager.AddToRoleAsync(user3, userRole.Name);
         }
     }
 }

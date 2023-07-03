@@ -22,8 +22,4 @@
     <ProjectReference Include="..\SNB.DAL\SNB.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Account\" />
-  </ItemGroup>
-
 </Project>

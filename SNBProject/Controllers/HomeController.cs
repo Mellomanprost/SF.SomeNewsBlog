@@ -20,7 +20,7 @@ namespace SNBProject.Controllers
         {
             await _homeService.GenerateData();
 
-            return View(new MainViewModel());
+            return View();
         }
 
         public IActionResult Privacy()
@@ -29,20 +29,9 @@ namespace SNBProject.Controllers
         }
 
         [Route("Home/Error")]
-        public IActionResult Error(int? statusCode = null)
+        public IActionResult Error()
         {
-            if (statusCode.HasValue)
-            {
-                if (statusCode is 404 or 500)
-                {
-                    var viewName = statusCode.ToString();
-
-                    return View("402");
-                }
-                else
-                    return View("500");
-            }
-            return View("500");
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
 
