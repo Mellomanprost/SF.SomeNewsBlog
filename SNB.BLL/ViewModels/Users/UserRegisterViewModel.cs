@@ -23,7 +23,7 @@ namespace SNB.BLL.ViewModels.Users
         [Required(ErrorMessage = "Поле Никнейм обязательно для заполнения")]
         [DataType(DataType.Text)]
         [Display(Name = "Никнейм", Prompt = "Никнейм")]
-        public string? Login { get; set; }
+        public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Поле Email обязательно для заполнения")]
         [EmailAddress]

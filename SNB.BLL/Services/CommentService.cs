@@ -33,7 +33,7 @@ namespace SNB.BLL.Services
                 UserLogin = model.Author,
                 PostId = model.PostId,
                 UserId = userId,
-                //AuthorName = _userManager.FindByIdAsync(userId.ToString()).Result.Login,
+                //AuthorName = _userManager.FindByIdAsync(userId.ToString()).Result.UserName,
             };
 
             await _commentRepo.AddComment(comment);

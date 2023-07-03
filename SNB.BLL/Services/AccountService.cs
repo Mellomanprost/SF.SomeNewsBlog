@@ -79,7 +79,7 @@ namespace SNB.BLL.Services
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Login = user.Login,
+                UserName = user.UserName,
                 Email = user.Email,
                 NewPassword = string.Empty,
                 Id = id,
@@ -109,9 +109,9 @@ namespace SNB.BLL.Services
             {
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.NewPassword);
             }
-            if (model.Login != null)
+            if (model.UserName != null)
             {
-                user.Login = model.Login;
+                user.UserName = model.UserName;
             }
 
             foreach (var role in model.Roles)
@@ -185,9 +185,9 @@ namespace SNB.BLL.Services
             {
                 user.Email = model.Email;
             }
-            if (model.Login != null)
+            if (model.UserName != null)
             {
-                user.Login = model.Login;
+                user.UserName = model.UserName;
             }
 
             var roleUser = new Role() { Name = "Администратор", Description = "Не имеет ограничений" };

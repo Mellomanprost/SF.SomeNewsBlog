@@ -26,9 +26,9 @@ namespace SNB.BLL.Services
 
         public async Task GenerateData()
         {
-            var testUser = new UserRegisterViewModel { Login = "Admin", Email = "Admin@gmail.com", Password = "123456", FirstName = "Ivan", LastName = "Ivanov" };
-            var testUser2 = new UserRegisterViewModel { Login = "Moder", Email = "Moderator@gmail.com", Password = "123456", FirstName = "Sergey", LastName = "Sergeev" };
-            var testUser3 = new UserRegisterViewModel { Login = "User", Email = "User@gmail.com", Password = "123456", FirstName = "Petr", LastName = "Petrov" };
+            var testUser = new UserRegisterViewModel { UserName = "Admin", Email = "Admin@gmail.com", Password = "123456", FirstName = "Ivan", LastName = "Ivanov" };
+            var testUser2 = new UserRegisterViewModel { UserName = "Moder", Email = "Moderator@gmail.com", Password = "123456", FirstName = "Sergey", LastName = "Sergeev" };
+            var testUser3 = new UserRegisterViewModel { UserName = "User", Email = "User@gmail.com", Password = "123456", FirstName = "Petr", LastName = "Petrov" };
 
             var user = _mapper.Map<User>(testUser);
             var user2 = _mapper.Map<User>(testUser2);
