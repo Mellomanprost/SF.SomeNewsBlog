@@ -35,16 +35,12 @@ namespace SNBProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var tagId = _tagService.CreateTag(model);
-
-                // _logger.Info($"создан тег - {model.Name}");
+                var tagId = _tagService.CreateTag(model);
 
                 return RedirectToAction("GetTags", "Tag");
             }
             else
             {
-                //_logger.Error($"Ошибка создания тега - {model.Name}");
-
                 return View(model);
             }
         }
@@ -70,20 +66,14 @@ namespace SNBProject.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTag(TagEditViewModel model, Guid id)
         {
-
             if (ModelState.IsValid)
             {
                 await _tagService.EditTag(model, id);
 
-                //_logger.Info($"Изменен тег - {model.Name}");
-
                 return RedirectToAction("GetTags", "Tag");
-
             }
             else
             {
-                //_logger.Error($"Ошибка изменения тега - {model.Name}");
-
                 return View(model);
             }
         }
@@ -109,11 +99,8 @@ namespace SNBProject.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveTag(Guid id)
         {
-            //var tag = await _tagService.GetTag(id);
-
+            var tag = await _tagService.GetTag(id);
             await _tagService.RemoveTag(id);
-
-            //_logger.Debug($"Удален тег - {tag.Name}");
 
             return RedirectToAction("GetTags", "Tag");
         }
@@ -136,7 +123,6 @@ namespace SNBProject.Controllers
             var tags = await _tagService.GetTag(id);
 
             return View(tags);
-
         }
     }
 }

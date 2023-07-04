@@ -22,20 +22,20 @@
 		                @if (User.IsInRole("Администратор") || User.IsInRole("Модератор"))
 		                {
 			                <li class="nav-item">
-				                <a class="nav-link" asp-area="" asp-controller="Tag" asp-action="GetTags">Теги</a>
+				                <a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="GetTags">Теги</a>
 			                </li>
 			                <li class="nav-item">
-				                <a class="nav-link" asp-area="" asp-controller="Role" asp-action="GetRoles">Роли</a>
+				                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="GetRoles">Роли</a>
 			                </li>
 			                <li class="nav-item">
-				                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="GetAccounts">Пользователи</a>
+				                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="GetAccounts">Пользователи</a>
 			                </li>
 		                }
 		                <li class="nav-item">
-			                <a class="nav-link" asp-area="" asp-controller="Post" asp-action="GetPosts">Статьи</a>
+			                <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="GetPosts">Статьи</a>
 		                </li>
 		                <li class="nav-item">
-			                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+			                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
 		                </li>
 		                <li class="nav-item">
 			                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
