@@ -15,6 +15,9 @@ namespace SNBProject.Controllers
             _accountService = accountService;
         }
 
+        /// <summary>
+        /// [Get] Метод, login
+        /// </summary>
         [Route("Account/Login")]
         [HttpGet]
         public IActionResult Login()
@@ -22,6 +25,9 @@ namespace SNBProject.Controllers
             return View();
         }
 
+        /// <summary>
+        /// [Post] Метод, login
+        /// </summary>
         [Route("Account/Login")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -206,7 +212,7 @@ namespace SNBProject.Controllers
         }
 
         /// <summary>
-        /// [Get] Метод, просмотра
+        /// [Get] Метод, получения одного пользователя по Id
         /// </summary>
         [Route("Account/Details")]
         [Authorize(Roles = "Администратор, Модератор")]

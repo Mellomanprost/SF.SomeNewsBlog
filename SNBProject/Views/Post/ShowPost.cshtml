@@ -32,9 +32,9 @@
 			<div class="card w-75">
 				<p>@comment.Content</p>
 				<h7>Author: @comment.User</h7>
-				@if (User.IsInRole("Администратор") || User.Identity.Name == comment.UserLogin)
+				@if (User.IsInRole("Администратор") || User.Identity.Name == comment.UserName)
 				{
-					<p>Author real name: @comment.UserLogin</p>
+					<p>Author real name: @comment.UserName</p>
 					<a class="btn btn-outline-info button" method="get" asp-controller="Comment" asp-action="EditComment" asp-route-id="@comment.Id">Редактировать</a>
 					<a class="btn btn-outline-danger button" method="post" asp-controller="Comment" asp-action="RemoveComment" asp-route-id="@comment.Id">Удалить</a>
 				}
