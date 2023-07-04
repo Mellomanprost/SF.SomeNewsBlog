@@ -4,7 +4,7 @@ using SNB.DAL.Models;
 
 namespace SNB.DAL
 {
-    public class BlogDbContext : IdentityDbContext<User>
+    public class BlogDbContext : IdentityDbContext<User, Role, string>
     {
         /// Ссылка на таблицу Posts
         public DbSet<Post>? Posts { get; set; }

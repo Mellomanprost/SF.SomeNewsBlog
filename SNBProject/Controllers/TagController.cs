@@ -36,7 +36,7 @@ namespace SNBProject.Controllers
             if (ModelState.IsValid)
             {
                 //var tagId = _tagService.CreateTag(model);
-                
+
                 // _logger.Info($"создан тег - {model.Name}");
 
                 return RedirectToAction("GetTags", "Tag");

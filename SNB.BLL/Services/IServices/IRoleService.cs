@@ -18,6 +18,6 @@ namespace SNB.BLL.Services.IServices
 
         Task<List<Role>> GetRoles();
 
-        Task<Role?> GetRole(Guid id); //рассмотреть внимательнее нужен ли, ведь есть GetRoles
+        Task<Role?> GetRole(Guid id);
     }
 }

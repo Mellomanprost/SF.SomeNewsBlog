@@ -10,7 +10,7 @@ namespace SNB.BLL.ViewModels.Roles
 {
     public class RoleEditViewModel
     {
-        public Guid Id { get; set; }    //???
+        public Guid Id { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "Название", Prompt = "Название")]
