@@ -30,9 +30,9 @@ namespace SNB.BLL.Services
             var comment = new Comment
             {
                 Content = model.Content,
-                UserLogin = model.Author,
+                UserName = model.Author,
                 PostId = model.PostId,
-                UserId = userId,
+                //UserId = userId,
                 //AuthorName = _userManager.FindByIdAsync(userId.ToString()).Result.UserName,
             };
 
@@ -48,7 +48,7 @@ namespace SNB.BLL.Services
             var result = new CommentEditViewModel
             {
                 Content = comment.Content,
-                Author = comment.UserLogin,
+                Author = comment.UserName,
             };
 
             return result;
@@ -59,7 +59,7 @@ namespace SNB.BLL.Services
             var comment = _commentRepo.GetComment(id);
 
             comment.Content = model.Content;
-            comment.UserLogin = model.Author;
+            comment.UserName = model.Author;
 
             await _commentRepo.UpdateComment(comment);
         }

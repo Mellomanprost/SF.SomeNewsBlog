@@ -12,8 +12,8 @@ using SNB.DAL;
 namespace SNBProject.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20230701132504_Initial")]
-    partial class Initial
+    [Migration("20230704072154_Initial2")]
+    partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -211,6 +211,9 @@ namespace SNBProject.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -296,10 +299,6 @@ namespace SNBProject.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -323,7 +322,7 @@ namespace SNBProject.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Login")
+                    b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -344,7 +343,7 @@ namespace SNBProject.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
 
-                    b.Property<string>("Content")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Role");
