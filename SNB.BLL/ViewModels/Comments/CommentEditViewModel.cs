@@ -6,10 +6,6 @@ namespace SNB.BLL.ViewModels.Comments
     public class CommentEditViewModel
     {
         [DataType(DataType.Text)]
-        [Display(Name = "Заголовок", Prompt = "Заголовок")]
-        public string? Title { get; set; }
-
-        [DataType(DataType.Text)]
         [Display(Name = "Содержание", Prompt = "Содержание")]
         public string? Content { get; set; }
 
