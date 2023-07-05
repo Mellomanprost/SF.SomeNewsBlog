@@ -52,9 +52,9 @@ namespace SNBProject.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost(PostCreateViewModel model)
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
-            model.UserId = user.Id;
+            model.AuthorId = user.Id;
 
             if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Content))
             {

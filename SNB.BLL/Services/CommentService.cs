@@ -16,13 +16,13 @@ namespace SNB.BLL.Services
     {
         public IMapper _mapper;
         private readonly ICommentRepository _commentRepo;
-        private readonly UserManager<User> _userManager;
+        //private readonly UserManager<User> _userManager;
 
         public CommentService(IMapper mapper, ICommentRepository commentRepo, UserManager<User> userManager)
         {
             _mapper = mapper;
             _commentRepo = commentRepo;
-            _userManager = userManager;
+            //_userManager = userManager;
         }
 
         public async Task<Guid> CreateComment(CommentCreateViewModel model, Guid userId)

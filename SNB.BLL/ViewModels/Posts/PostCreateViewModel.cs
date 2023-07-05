@@ -12,7 +12,7 @@ namespace SNB.BLL.ViewModels.Posts
     public class PostCreateViewModel
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public string? UserId { get; set; }
+        public string? AuthorId { get; set; }
         public List<TagViewModel>? Tags { get; set; }
 
         [Required(ErrorMessage = "Поле Заголовок обязательно для заполнения")]

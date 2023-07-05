@@ -65,10 +65,10 @@ namespace SNB.BLL.Services
                 Title = model.Title,
                 Content = model.Content,
                 Tags = dbTags,
-                UserId = model.UserId
+                AuthorId = model.AuthorId
             };
 
-            var user = await _userManager.FindByIdAsync(model.UserId);
+            var user = await _userManager.FindByIdAsync(model.AuthorId);
 
             user.Posts.Add(post);
 
@@ -152,7 +152,7 @@ namespace SNB.BLL.Services
         {
             var post = _repo.GetPost(id);
 
-            var user = await _userManager.FindByIdAsync(post.UserId.ToString());
+            var user = await _userManager.FindByIdAsync(post.AuthorId.ToString());
 
             var comments = _commentRepo.GetCommentsByPostId(post.Id);
 
@@ -168,11 +168,11 @@ namespace SNB.BLL.Services
 
             if (!string.IsNullOrEmpty(user.UserName))
             {
-                post.UserId = user.UserName;
+                post.AuthorId = user.UserName;
             }
             else
             {
-                post.UserId = "nonUsernamed";
+                post.AuthorId = "nonUsernamed";
             }
 
             return post;
