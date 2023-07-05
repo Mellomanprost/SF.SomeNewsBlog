@@ -26,7 +26,6 @@ namespace SNB.BLL.Services
         public async Task<Guid> CreateTag(TagCreateViewModel model)
         {
             var tag = _mapper.Map<Tag>(model);
-
             await _repo.AddTag(tag);
 
             return tag.Id;
@@ -35,7 +34,6 @@ namespace SNB.BLL.Services
         public async Task<TagEditViewModel> EditTag(Guid id)
         {
             var tag = _repo.GetTag(id);
-
             var result = new TagEditViewModel()
             {
                 Name = tag.Name
@@ -47,9 +45,7 @@ namespace SNB.BLL.Services
         public async Task EditTag(TagEditViewModel model, Guid id)
         {
             var tag = _repo.GetTag(id);
-
             tag.Name = model.Name;
-
             await _repo.UpdateTag(tag);
         }
 

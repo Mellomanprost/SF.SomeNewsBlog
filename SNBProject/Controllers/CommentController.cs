@@ -40,7 +40,7 @@ namespace SNBProject.Controllers
         {
             model.PostId = postId;
 
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
             var post = _commentService.CreateComment(model, new Guid(user.Id));
 
