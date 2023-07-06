@@ -17,7 +17,7 @@ namespace SNBProject
             var builder = WebApplication.CreateBuilder(args);
 
             string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("SNBProject")), ServiceLifetime.Singleton)
+            builder.Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(connection))
                 .AddIdentity<User, Role>(opts =>
                 {
                     opts.Password.RequiredLength = 5;
