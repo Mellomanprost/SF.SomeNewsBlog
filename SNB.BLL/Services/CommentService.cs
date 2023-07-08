@@ -18,7 +18,7 @@ namespace SNB.BLL.Services
         private readonly ICommentRepository _commentRepo;
         //private readonly UserManager<User> _userManager;
 
-        public CommentService(IMapper mapper, ICommentRepository commentRepo, UserManager<User> userManager)
+        public CommentService(IMapper mapper, ICommentRepository commentRepo/*, UserManager<User> userManager*/)
         {
             _mapper = mapper;
             _commentRepo = commentRepo;
