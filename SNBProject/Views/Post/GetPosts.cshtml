@@ -20,7 +20,7 @@
                               {
                                   <span class="badge rounded-pill text-bg-success" style="color:green">@tag.Name</span>
                               }
-                              @if (User.IsInRole("Администратор"))
+                              @if (User.IsInRole("Администратор") || User.IsInRole("Модератор"))
                               {
                                 <div>
                                     <a class="btn btn-outline-info button" method="get" asp-controller="Post" asp-action="EditPost" asp-route-id="@post.Id">Редактировать</a>

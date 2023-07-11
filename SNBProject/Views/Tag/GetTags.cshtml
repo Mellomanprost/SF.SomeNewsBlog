@@ -1,4 +1,5 @@
-﻿@model List<SNB.DAL.Models.Tag>
+﻿@using System.Collections.Immutable
+@model List<SNB.DAL.Models.Tag>
 
 @{
 	@if (Model.Count() == 0)
@@ -15,6 +16,7 @@
 			<div class="card w-75">
 				<div class="card-body">
 					<h5 class="card-title">@tag.Name</h5>
+					<h7>Статей с тегом: @tag.Posts.Select(p => p.Tags.Where(t => t.Id == @tag.Id)).Count()</h7>
 					@if (User.IsInRole("Администратор"))
 					{
 						<div>

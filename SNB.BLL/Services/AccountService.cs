@@ -39,7 +39,7 @@ namespace SNB.BLL.Services
             {
                 await _signInManager.SignInAsync(user, false);
 
-                var userRole = new Role() { Name = "Пользователь", Description = "Имеет ограниченные права" };
+                var userRole = new Role() { Name = "Пользователь", Description = "Стандартная роль приложения" };
 
                 await _roleManager.CreateAsync(userRole);
 
@@ -190,7 +190,7 @@ namespace SNB.BLL.Services
                 user.UserName = model.UserName;
             }
 
-            var roleUser = new Role() { Name = "Администратор", Description = "Не имеет ограничений" };
+            var roleUser = new Role() { Name = "Пользователь", Description = "Стандартная роль приложения" };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 

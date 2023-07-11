@@ -18,7 +18,7 @@ namespace SNB.BLL.ViewModels.Posts
         public string? Title { get; set; }
 
         [DataType(DataType.Text)]
-        [Display(Name = "Описание", Prompt = "Описание")]
+        [Display(Name = "Контент", Prompt = "Контент")]
         public string? Content { get; set; }
 
         [Display(Name = "Теги", Prompt = "Теги")]

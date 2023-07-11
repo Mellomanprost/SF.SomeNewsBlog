@@ -20,9 +20,9 @@ namespace SNB.BLL.ViewModels.Posts
         [Display(Name = "Заголовок", Prompt = "Заголовок")]
         public string? Title { get; set; }
 
-        [Required(ErrorMessage = "Поле Описание обязательно для заполнения")]
+        [Required(ErrorMessage = "Поле Контент обязательно для заполнения")]
         [DataType(DataType.Text)]
-        [Display(Name = "Описание", Prompt = "Описание")]
+        [Display(Name = "Контент", Prompt = "Контент")]
         public string? Content { get; set; }
     }
 }

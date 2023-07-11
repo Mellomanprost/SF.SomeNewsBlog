@@ -16,7 +16,7 @@
 				<div class="card-body">
 					<h5 class="card-title">@role.Name</h5>
 					<h5 class="card-title">Описание: @role.Description</h5>
-					@if (User.IsInRole("Администратор"))
+					@if (User.IsInRole("Администратор") && @role.Name != "Администратор" && @role.Name != "Модератор" && @role.Name != "Пользователь")
 					{
 						<div>
 							<a class="btn btn-outline-info button" method="get" asp-controller="Role" asp-action="EditRole" asp-route-id="@role.Id">Редактировать</a>

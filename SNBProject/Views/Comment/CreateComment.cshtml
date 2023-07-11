@@ -4,8 +4,8 @@
 	<h2 class="title-margin">Добавление комментария</h2>
 	<form method="post" asp-controller="Comment" asp-action="CreateComment" asp-route-postId="@Model.PostId"> <div asp-validation-summary="All" class="text-danger"></div>
 		<div style="margin-bottom: 5px">
-			<label asp-for="Content"></label><br />
-			<input class="form-control" asp-for="Content" />
+			<label asp-for="Content"></label><br/>
+			<input class="form-control" asp-for="Content"/>
 			<span asp-validation-for="Content" class="text-danger"></span>
 		</div>
 		<div style="margin-bottom: 5px">

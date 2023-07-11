@@ -1,7 +1,7 @@
 ﻿@model SNB.DAL.Models.Post
 
 <div class="card w-75">
-	<h1 class="card-title">Title: @Model.Title</h1>
+	<h1 class="card-title">@Model.Title</h1>
 	@{
 		<div>
 			<h6>Tags:</h6>
@@ -11,8 +11,9 @@
 			}
 		</div>
 	}
-	<p>Body: @Model.Content</p>
-	<h7>Author: @Model.AuthorId</h7>
+	<p></p>
+	<p>@Model.Content</p>
+	<h7>Author: <b>@Model.AuthorId</b></h7>
 	<p></p>
 	<p></p>
 </div>
@@ -30,16 +31,19 @@
 		foreach (var comment in Model.Comments)
 		{
 			<div class="card w-75">
-				<p>@comment.Content</p>
 				@if (User.IsInRole("Администратор") || User.Identity?.Name == comment.AuthorName)
 				{
-					<p>Author real name: @comment.AuthorName</p>
+					<div>
+						<p>User: <b>@comment.AuthorName</b></p>
+					</div>
+					<p><i>@comment.Content</i></p>
 					<a class="btn btn-outline-info button" method="get" asp-controller="Comment" asp-action="EditComment" asp-route-id="@comment.Id">Редактировать</a>
 					<a class="btn btn-outline-danger button" method="post" asp-controller="Comment" asp-action="RemoveComment" asp-route-id="@comment.Id">Удалить</a>
 				}
 				else
 				{
-					<h7>Author: @comment.AuthorName</h7>
+					<h7>Unregistred user: @comment.AuthorName</h7>
+					<p><i>@comment.Content</i></p>
 				}
 			</div>
 		}

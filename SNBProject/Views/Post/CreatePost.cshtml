@@ -1,11 +1,13 @@
 ﻿@model SNB.BLL.ViewModels.Posts.PostCreateViewModel
 
+
 <div class="container-page">
 	<h2 class="title-margin">Добавление статьи</h2>
-	<form method="post" asp-controller="Post" asp-action="CreatePost"> <div asp-validation-summary="All" class="text-danger"></div>
+	<form method="post" asp-controller="Post" asp-action="CreatePost">
+		<div asp-validation-summary="All" class="text-danger"></div>
 		<div style="margin-bottom: 5px">
-			<label asp-for="Title"></label><br />
-			<input class="form-control" asp-for="Title" />
+			<label asp-for="Title"></label><br/>
+			<input class="form-control" asp-for="Title"/>
 			<span asp-validation-for="Title" class="text-danger"></span>
 		</div>
 		<div style="margin-bottom: 5px">
@@ -15,7 +17,7 @@
 				{
 					@for (int i = 0; i < Model.Tags.Count; i++)
 					{
-						if(i % 3 == 0)
+						if (i % 3 == 0)
 						{
 							@:<tr></tr>
 						}
@@ -29,8 +31,8 @@
 			</table>
 		</div>
 		<div style="margin-bottom: 5px">
-			<label asp-for="Content"></label><br />
-			<textarea class="form-control" id="editor" rows="10" value="" asp-for="Content"></textarea>
+			<label asp-for="Content"></label><br/>
+			<textarea class="form-control" id="editor" rows="10" name="editor" asp-for="Content"></textarea>
 			<span asp-validation-for="Content" class="text-danger"></span>
 		</div>
 		<div>
