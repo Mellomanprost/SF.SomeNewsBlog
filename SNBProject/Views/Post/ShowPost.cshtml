@@ -11,6 +11,8 @@
 			}
 		</div>
 	}
+	<p>Body: @Model.Content</p>
+	<h7>Author: @Model.AuthorId</h7>
 	<p></p>
 	<p>@Model.Content</p>
 	<h7>Author: <b>@Model.AuthorId</b></h7>
@@ -31,6 +33,8 @@
 		foreach (var comment in Model.Comments)
 		{
 			<div class="card w-75">
+				<p>@comment.Content</p>
+				<h7>Author: @comment.User</h7>
 				@if (User.IsInRole("Администратор") || User.Identity?.Name == comment.AuthorName)
 				{
 					<div>
