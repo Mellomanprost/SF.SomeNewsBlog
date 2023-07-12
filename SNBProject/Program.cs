@@ -25,6 +25,7 @@ namespace SNBProject
                     opts.Password.RequireLowercase = false;
                     opts.Password.RequireUppercase = false;
                     opts.Password.RequireDigit = false;
+                    opts.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<BlogDbContext>();
 

@@ -17,7 +17,7 @@ namespace SNB.BLL.ViewModels.Roles
         public string? Name { get; set; }
 
         [DataType(DataType.Text)]
-        [Display(Name = "Описание роли", Prompt = "описание")]
+        [Display(Name = "Описание роли", Prompt = "Описание")]
         public string? Description { get; set; } = null;
     }
 }
