@@ -11,19 +11,14 @@
 			}
 		</div>
 	}
-	<p>Body: @Model.Content</p>
-	<h7>Author: @Model.AuthorId</h7>
 	<p></p>
 	<p>@Model.Content</p>
 	<h7>Author: <b>@Model.AuthorId</b></h7>
-	<p></p>
-	<p></p>
+	<br/>
 </div>
 @{
-	<div>
-		<a class="btn btn-outline-secondary" method="get" asp-controller="Comment" asp-action="CreateComment" asp-route-postId="@Model.Id">Добавить комментарий</a>
-	</div>
-	<p></p>
+	<br/>
+	<p>Комментарии к статье</p>
 	if (Model.Comments.Count() == 0)
 	{
 		<h5 style="color: gray;">Коментарии отсутствуют</h5>
@@ -32,24 +27,24 @@
 	{
 		foreach (var comment in Model.Comments)
 		{
-			<div class="card w-75">
-				<p>@comment.Content</p>
-				<h7>Author: @comment.User</h7>
-				@if (User.IsInRole("Администратор") || User.Identity?.Name == comment.AuthorName)
-				{
-					<div>
-						<p>User: <b>@comment.AuthorName</b></p>
-					</div>
-					<p><i>@comment.Content</i></p>
-					<a class="btn btn-outline-info button" method="get" asp-controller="Comment" asp-action="EditComment" asp-route-id="@comment.Id">Редактировать</a>
-					<a class="btn btn-outline-danger button" method="post" asp-controller="Comment" asp-action="RemoveComment" asp-route-id="@comment.Id">Удалить</a>
-				}
-				else
-				{
-					<h7>Unregistred user: @comment.AuthorName</h7>
-					<p><i>@comment.Content</i></p>
-				}
-			</div>
-		}
+			<br/>
+			<p>User: <b>@comment.AuthorName</b></p>
+				<div class="card w-75">
+					@if (User.IsInRole("Администратор") || User.Identity?.Name == comment.AuthorName)
+					{
+						<p><i>@comment.Content</i></p>
+						<a class="btn btn-outline-info button" method="get" asp-controller="Comment" asp-action="EditComment" asp-route-id="@comment.Id">Редактировать</a>
+						<a class="btn btn-outline-danger button" method="post" asp-controller="Comment" asp-action="RemoveComment" asp-route-id="@comment.Id">Удалить</a>
+					}
+					else
+					{
+						<p><i>@comment.Content</i></p>
+					}
+				</div>
+			}
 	}
+	<br/>
+	<div>
+		<a class="btn btn-outline-secondary" method="get" asp-controller="Comment" asp-action="CreateComment" asp-route-postId="@Model.Id">Оставить комментарий</a>
+	</div>
 }
