@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SomeNewsBlog.DAL.Models;
 using System.Diagnostics;
+using SomeNewsBlogProject.Models;
 
 namespace SomeNewsBlog.BLL.Controllers
 {
