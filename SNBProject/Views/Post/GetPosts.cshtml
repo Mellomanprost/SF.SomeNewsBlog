@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
 @model List<SNB.DAL.Models.Post>
+@{
+	ViewData["Title"] = "Posts";
+}
 
 	@{
               @if (!Model.Any())
