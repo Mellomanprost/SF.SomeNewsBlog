@@ -48,6 +48,11 @@ namespace SNBProject
                 .AddTransient<IRoleService, RoleService>()
                 .AddTransient<ITagService, TagService>()
                 .AddControllersWithViews();
+            
+            // подключение logger
+            builder.Logging.ClearProviders()
+                .SetMinimumLevel(LogLevel.Trace)
+                .AddConsole();
 
             var app = builder.Build();
 

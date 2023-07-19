@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NLog;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Posts;
 using SNB.DAL.Models;
@@ -12,6 +13,7 @@ namespace SNBProject.Controllers
     {
         private readonly IPostService _postService;
         private readonly UserManager<User> _userManager;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public PostController(IPostService postService, UserManager<User> userManager)
         {
@@ -59,11 +61,13 @@ namespace SNBProject.Controllers
             if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Content))
             {
                 ModelState.AddModelError("", "Не все поля заполненны");
+                Logger.Error($"Пост не создан, ошибка при создании - Не все поля заполнены");
 
                 return View(model);
             }
 
             await _postService.CreatePost(model);
+            Logger.Info($"Создан пост - {model.Title}");
 
             return RedirectToAction("GetPosts", "Post");
         }
@@ -91,11 +95,13 @@ namespace SNBProject.Controllers
             if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Content))
             {
                 ModelState.AddModelError("", "Не все поля заполненны");
+                Logger.Error($"Пост не отредактирован, ошибка при редактировании - Не все поля заполнены");
 
                 return View(model);
             }
 
             await _postService.EditPost(model, Id);
+            Logger.Info($"Пост {model.Title} отредактирован");
 
             return RedirectToAction("GetPosts", "Post");
         }
@@ -108,7 +114,6 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> RemovePost(Guid id, bool confirm = true)
         {
             if (confirm)
-
                 await RemovePost(id);
 
             return RedirectToAction("GetPosts", "Post");
@@ -123,6 +128,7 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> RemovePost(Guid id)
         {
             await _postService.RemovePost(id);
+            Logger.Info($"Пост с id {id} удален");
 
             return RedirectToAction("GetPosts", "Post");
         }

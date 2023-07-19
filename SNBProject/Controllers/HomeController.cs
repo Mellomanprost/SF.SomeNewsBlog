@@ -4,14 +4,16 @@ using SNBProject.ViewModels;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using SNB.BLL.Services.IServices;
+using NLog;
 
 namespace SNBProject.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IHomeService _homeService;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public HomeController(IMapper mapper, IHomeService homeService)
+        public HomeController(IHomeService homeService)
         {
             _homeService = homeService;
         }

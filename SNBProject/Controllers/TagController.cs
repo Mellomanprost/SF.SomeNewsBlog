@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Tags;
 
@@ -8,6 +9,7 @@ namespace SNBProject.Controllers
     public class TagController : Controller
     {
         private readonly ITagService _tagService;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public TagController(ITagService tagService)
         {
@@ -36,11 +38,14 @@ namespace SNBProject.Controllers
             if (ModelState.IsValid)
             {
                 var tagId = _tagService.CreateTag(model);
+                Logger.Info($"Создан тег - {model.Name}");
 
                 return RedirectToAction("GetTags", "Tag");
             }
             else
             {
+                Logger.Error($"Ошибка при создании тега - {model.Name}");
+
                 return View(model);
             }
         }
@@ -69,11 +74,14 @@ namespace SNBProject.Controllers
             if (ModelState.IsValid)
             {
                 await _tagService.EditTag(model, id);
+                Logger.Info($"Изменен тег - {model.Name}");
 
                 return RedirectToAction("GetTags", "Tag");
             }
             else
             {
+                Logger.Error($"Ошибка при изменении тега - {model.Name}");
+
                 return View(model);
             }
         }
@@ -88,6 +96,7 @@ namespace SNBProject.Controllers
         {
             if (isConfirm)
                 await RemoveTag(id);
+
             return RedirectToAction("GetTags", "Tag");
         }
 
@@ -101,6 +110,7 @@ namespace SNBProject.Controllers
         {
             var tag = await _tagService.GetTag(id);
             await _tagService.RemoveTag(id);
+            Logger.Info($"Удаленн тег - {id}");
 
             return RedirectToAction("GetTags", "Tag");
         }
@@ -118,6 +128,12 @@ namespace SNBProject.Controllers
             return View(tags);
         }
 
+        /// <summary>
+        /// [Get] Метод, просмотра данных о теге
+        /// </summary>
+        [Route("Tag/Details")]
+        [Authorize(Roles = "Администратор, Модератор")]
+        [HttpGet]
         public async Task<IActionResult> DetailsTag(Guid id)
         {
             var tags = await _tagService.GetTag(id);

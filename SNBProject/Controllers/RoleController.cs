@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NLog;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Roles;
 
@@ -9,6 +10,7 @@ namespace SNBProject.Controllers
     public class RoleController : Controller
     {
         private readonly IRoleService _roleService;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public RoleController(IRoleService roleService)
         {
@@ -16,7 +18,7 @@ namespace SNBProject.Controllers
         }
 
         /// <summary>
-        /// [Get] Метод, создания тега
+        /// [Get] Метод, создания роли
         /// </summary>
         [Route("Role/Create")]
         [Authorize(Roles = "Администратор, Модератор")]
@@ -27,7 +29,7 @@ namespace SNBProject.Controllers
         }
 
         /// <summary>
-        /// [Post] Метод, создания тега
+        /// [Post] Метод, создания роли
         /// </summary>
         [Route("Role/Create")]
         [Authorize(Roles = "Администратор, Модератор")]
@@ -37,19 +39,21 @@ namespace SNBProject.Controllers
             if (ModelState.IsValid)
             {
                 var roleId = await _roleService.CreateRole(model);
+                Logger.Info($"Созданна роль - {model.Name}");
 
                 return RedirectToAction("GetRoles", "Role");
             }
             else
             {
                 ModelState.AddModelError("", "Некорректные данные");
+                Logger.Error($"Роль {model.Name} не создана, ошибка при создании - Некорректные данные");
 
                 return View(model);
             }
         }
 
         /// <summary>
-        /// [Get] Метод, редактирования тега
+        /// [Get] Метод, редактирования роли
         /// </summary>
         [Route("Role/Edit")]
         [Authorize(Roles = "Администратор, Модератор")]
@@ -57,14 +61,13 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> EditRole(Guid id)
         {
             var role = _roleService.GetRole(id);
-
             var view = new RoleEditViewModel { Id = id, Description = role.Result?.Description, Name = role.Result?.Name };
 
             return View(view);
         }
 
         /// <summary>
-        /// [Post] Метод, редактирования тега
+        /// [Post] Метод, редактирования роли
         /// </summary>
         [Route("Role/Edit")]
         [Authorize(Roles = "Администратор, Модератор")]
@@ -74,19 +77,21 @@ namespace SNBProject.Controllers
             if (ModelState.IsValid)
             {
                 await _roleService.EditRole(model);
+                Logger.Info($"Измененна роль - {model.Name}");
 
                 return RedirectToAction("GetRoles", "Role");
             }
             else
             {
                 ModelState.AddModelError("", "Некорректные данные");
+                Logger.Error($"Роль {model.Name} не изменена, ошибка при изменении - Некорректные данные");
 
                 return View(model);
             }
         }
 
         /// <summary>
-        /// [Get] Метод, удаления тега
+        /// [Get] Метод, удаления роли
         /// </summary>
         [Route("Role/Remove")]
         [Authorize(Roles = "Администратор, Модератор")]
@@ -94,14 +99,13 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> RemoveRole(Guid id, bool isConfirm = true)
         {
             if (isConfirm)
-
                 await RemoveRole(id);
 
             return RedirectToAction("GetRoles", "Role");
         }
 
         /// <summary>
-        /// [Post] Метод, удаления тега
+        /// [Post] Метод, удаления роли
         /// </summary>
         [Route("Role/Remove")]
         [Authorize(Roles = "Администратор, Модератор")]
@@ -109,12 +113,13 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> RemoveRole(Guid id)
         {
             await _roleService.RemoveRole(id);
+            Logger.Info($"Удаленна роль - {id}");
 
             return RedirectToAction("GetRoles", "Role");
         }
 
         /// <summary>
-        /// [Get] Метод, получения всех тегов
+        /// [Get] Метод, получения всех ролей
         /// </summary>
         [Route("Role/GetRoles")]
         [HttpGet]
