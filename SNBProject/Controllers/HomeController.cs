@@ -11,7 +11,6 @@ namespace SNBProject.Controllers
     public class HomeController : Controller
     {
         private readonly IHomeService _homeService;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public HomeController(IHomeService homeService)
         {

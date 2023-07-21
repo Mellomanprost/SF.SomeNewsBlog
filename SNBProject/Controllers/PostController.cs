@@ -99,7 +99,6 @@ namespace SNBProject.Controllers
 
                 return View(model);
             }
-
             await _postService.EditPost(model, Id);
             Logger.Info($"Пост {model.Title} отредактирован");
 
