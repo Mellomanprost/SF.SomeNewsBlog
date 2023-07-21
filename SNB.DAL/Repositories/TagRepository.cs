@@ -24,19 +24,19 @@ namespace SNB.DAL.Repositories
 
         public async Task AddTag(Tag tag)
         {
-            _context.Tags.Add(tag);
+            _context.Tags?.Add(tag);
             await SaveChangesAsync();
         }
 
         public async Task UpdateTag(Tag tag)
         {
-            _context.Tags.Update(tag);
+            _context.Tags?.Update(tag);
             await SaveChangesAsync();
         }
 
         public async Task RemoveTag(Guid id)
         {
-            _context.Tags.Remove(GetTag(id));
+            _context.Tags?.Remove(GetTag(id));
             await SaveChangesAsync();
         }
 

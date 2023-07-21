@@ -95,7 +95,7 @@ namespace SNB.BLL.Services
             }
             foreach (var role in model.Roles)
             {
-                var roleName = _roleManager.FindByIdAsync(role.Id.ToString()).Result.Name;
+                var roleName = _roleManager.FindByIdAsync(role.Id?.ToString()).Result.Name;
                 if (role.IsSelected)
                 {
                     await _userManager.AddToRoleAsync(user, roleName);

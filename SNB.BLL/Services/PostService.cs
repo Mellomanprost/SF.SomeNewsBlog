@@ -122,7 +122,7 @@ namespace SNB.BLL.Services
         public async Task<Post> ShowPost(Guid id)
         {
             var post = _repo.GetPost(id);
-            var user = await _userManager.FindByIdAsync(post.AuthorId.ToString());
+            var user = await _userManager.FindByIdAsync(post.AuthorId?.ToString());
             var comments = _commentRepo.GetCommentsByPostId(post.Id);
             post.Id = id;
             foreach (var comment in comments)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Users;
 using NLog;
@@ -185,7 +184,7 @@ namespace SNBProject.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveAccount(Guid id)
         {
-            //var account = await _accountService.GetAccount(id);
+            var account = await _accountService.GetAccount(id);
             await _accountService.RemoveAccount(id);
             Logger.Info($"Аккаунт с id - {id} удален");
 
