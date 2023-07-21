@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NLog;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Roles;

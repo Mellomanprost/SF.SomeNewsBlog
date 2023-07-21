@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using SNBProject.ViewModels;
-using AutoMapper;
-using Microsoft.Extensions.Logging;
 using SNB.BLL.Services.IServices;
-using NLog;
 
 namespace SNBProject.Controllers
 {

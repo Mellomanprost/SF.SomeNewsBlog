@@ -1,9 +1,4 @@
 ﻿using SNB.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SNB.BLL.ViewModels.Comments;
 
 namespace SNB.BLL.Services.IServices

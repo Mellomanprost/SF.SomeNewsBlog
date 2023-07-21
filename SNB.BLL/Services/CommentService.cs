@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Comments;
 using SNB.DAL.Models;
@@ -16,13 +10,11 @@ namespace SNB.BLL.Services
     {
         public IMapper _mapper;
         private readonly ICommentRepository _commentRepo;
-        //private readonly UserManager<User> _userManager;
 
-        public CommentService(IMapper mapper, ICommentRepository commentRepo/*, UserManager<User> userManager*/)
+        public CommentService(IMapper mapper, ICommentRepository commentRepo)
         {
             _mapper = mapper;
             _commentRepo = commentRepo;
-            //_userManager = userManager;
         }
 
         public async Task<Guid> CreateComment(CommentCreateViewModel model, Guid userId)
@@ -32,35 +24,27 @@ namespace SNB.BLL.Services
                 Content = model.Content,
                 AuthorName = model.Author,
                 PostId = model.PostId,
-                //UserId = userId,
-                //AuthorName = _userManager.FindByIdAsync(userId.ToString()).Result.UserName,
             };
-
             await _commentRepo.AddComment(comment);
-
             return comment.Id;
         }
 
         public async Task<CommentEditViewModel> EditComment(Guid id)
         {
             var comment = _commentRepo.GetComment(id);
-
             var result = new CommentEditViewModel
             {
                 Content = comment.Content,
                 Author = comment.AuthorName,
             };
-
             return result;
         }
 
         public async Task EditComment(CommentEditViewModel model, Guid id)
         {
             var comment = _commentRepo.GetComment(id);
-
             comment.Content = model.Content;
             comment.AuthorName = model.Author;
-
             await _commentRepo.UpdateComment(comment);
         }
 

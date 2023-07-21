@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NLog;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Posts;
@@ -55,9 +54,7 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> CreatePost(PostCreateViewModel model)
         {
             var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
-
             model.AuthorId = user.Id;
-
             if (string.IsNullOrEmpty(model.Title) || string.IsNullOrEmpty(model.Content))
             {
                 ModelState.AddModelError("", "Не все поля заполненны");
@@ -65,7 +62,6 @@ namespace SNBProject.Controllers
 
                 return View(model);
             }
-
             await _postService.CreatePost(model);
             Logger.Info($"Создан пост - {model.Title}");
 

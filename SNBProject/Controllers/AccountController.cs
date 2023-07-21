@@ -185,7 +185,7 @@ namespace SNBProject.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveAccount(Guid id)
         {
-            var account = await _accountService.GetAccount(id);
+            //var account = await _accountService.GetAccount(id);
             await _accountService.RemoveAccount(id);
             Logger.Info($"Аккаунт с id - {id} удален");
 

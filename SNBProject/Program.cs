@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SNB.BLL.Services;
 using SNB.BLL.Services.IServices;
