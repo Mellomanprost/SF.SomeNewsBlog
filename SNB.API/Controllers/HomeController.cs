@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using SNBProject.ViewModels;
-using SNB.BLL.Services.IServices;
-using NLog;
 
-namespace SNBProject.Controllers
+namespace SNB.API.Controllers
 {
     public class HomeController : Controller
     {
