@@ -46,9 +46,8 @@ namespace SNB.BLL.Services
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-            {
                 return SignInResult.Failed;
-            }
+
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
             return result;
         }

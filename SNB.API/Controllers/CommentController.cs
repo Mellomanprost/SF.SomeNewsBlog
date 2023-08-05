@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SNB.BLL.Services.IServices;
+using SNB.BLL.ViewModels.Comments;
+using SNB.DAL.Models;
 
 namespace SNB.API.Controllers
 {
@@ -8,7 +11,6 @@ namespace SNB.API.Controllers
     {
         private readonly ICommentService _commentService;
         private readonly UserManager<User> _userManager;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public CommentController(ICommentService commentService, UserManager<User> userManager)
         {
@@ -16,93 +18,58 @@ namespace SNB.API.Controllers
             _userManager = userManager;
         }
 
-        // <summary>
-        /// [Get] Метод, добавление комментария
+        /// <summary>
+        /// Получение всех комментариев поста
         /// </summary>
+        [Authorize(Roles = "Администратор")]
         [HttpGet]
-        [Route("Comment/CreateComment")]
-        public IActionResult CreateComment(Guid postId)
+        [Route("GetPostComment")]
+        public async Task<IEnumerable<Comment>> GetComments(Guid id)
         {
-            var model = new CommentCreateViewModel() { PostId = postId };
+            var comment = await _commentService.GetComments();
 
-            return View(model);
+            return comment.Where(c => c.PostId == id);
         }
 
-        // <summary>
-        /// [Post] Метод, добавление комментария
+        /// <summary>
+        /// Создание комментария к посту
         /// </summary>
+        [Authorize(Roles = "Администратор")]
         [HttpPost]
-        [Route("Comment/CreateComment")]
+        [Route("CreateComment")]
         public async Task<IActionResult> CreateComment(CommentCreateViewModel model, Guid postId)
         {
             model.PostId = postId;
-            var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
-            var post = _commentService.CreateComment(model, new Guid(user.Id));
-            Logger.Info($"Пользователь {model.Author} добавил комментарий к статье {postId}");
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            await _commentService.CreateComment(model, new Guid(user.Id));
 
-            return RedirectToAction("GetPosts", "Post");
+            return StatusCode(201);
         }
 
         /// <summary>
-        /// [Get] Метод, редактирования коментария
+        /// Редактирование комментария
         /// </summary>
-        [Route("Comment/Edit")]
-        [HttpGet]
-        public async Task<IActionResult> EditComment(Guid id)
-        {
-            var view = await _commentService.EditComment(id);
-
-            return View(view);
-        }
-
-        /// <summary>
-        /// [Post] Метод, редактирования коментария
-        /// </summary>
-        [Authorize]
-        [Route("Comment/Edit")]
-        [HttpPost]
+        [Authorize(Roles = "Администратор")]
+        [HttpPatch]
+        [Route("EditComment")]
         public async Task<IActionResult> EditComment(CommentEditViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                await _commentService.EditComment(model, model.Id);
-                Logger.Info($"Пользователь {model.Author} изменил комментарий {model.Id}");
+            await _commentService.EditComment(model, model.Id);
 
-                return RedirectToAction("GetPosts", "Post");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Некорректные данные");
-
-                return View(model);
-            }
+            return StatusCode(201);
         }
 
         /// <summary>
-        /// [Get] Метод, удаления коментария
+        /// Удаление комментария
         /// </summary>
-        [HttpGet]
-        [Route("Comment/Remove")]
-        [Authorize(Roles = "Администратор, Модератор, Пользователь")]
-        public async Task<IActionResult> RemoveComment(Guid id, bool confirm = true)
-        {
-            if (confirm)
-                await RemoveComment(id);
-
-            return RedirectToAction("GetPosts", "Post");
-        }
-
-        /// <summary>
-        /// [Delete] Метод, удаления коментария
-        /// </summary>
+        [Authorize(Roles = "Администратор")]
         [HttpDelete]
-        [Route("Comment/Remove")]
+        [Route("RemoveComment")]
         public async Task<IActionResult> RemoveComment(Guid id)
         {
             await _commentService.RemoveComment(id);
-            Logger.Info($"Комментарий с id {id} удален");
 
-            return RedirectToAction("GetPosts", "Post");
+            return StatusCode(201);
         }
     }
 }

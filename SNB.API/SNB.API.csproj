@@ -15,8 +15,4 @@
     <ProjectReference Include="..\SNB.DAL\SNB.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
-
 </Project>

@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Users;
+using SNB.DAL.Models;
 
 namespace SNB.API.Controllers
 {
@@ -10,217 +16,106 @@ namespace SNB.API.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly UserManager<User> _userManager;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, UserManager<User> userManager)
         {
             _accountService = accountService;
+            _userManager = userManager;
         }
 
         /// <summary>
-        /// [Get] Метод, login
+        /// Авторизация аккаунта пользователя
         /// </summary>
-        [Route("Account/Login")]
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// [Post] Метод, login
-        /// </summary>
-        [Route("Account/Login")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserLoginViewModel model)
+        [Route("authenticate")]
+        public async Task<IActionResult> Authenticate(UserLoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+                throw new ArgumentNullException("Некорректный запрос");
+
+            var result = await _accountService.Login(model);
+            if (!result.Succeeded)
+                throw new AuthenticationException("Введен неверный пароль или такого аккаунта не существует");
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new List<Claim>
             {
-                var result = await _accountService.Login(model);
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+            if (roles.Contains("Администратор"))
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, "Администратор"));
+            else
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, roles.First()));
 
-                else
-                {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                }
-            }
-            return View(model);
-        }
-
-        /// <summary>
-        /// [Get] Метод, создания пользователя
-        /// </summary>
-        [Route("Account/Create")]
-        [HttpGet]
-        public IActionResult AddUser()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// [Post] Метод, создания пользователя
-        /// </summary>
-        [Route("Account/Create")]
-        [HttpPost]
-        public async Task<IActionResult> AddUser(UserCreateViewModel model)
-        {
-            if (ModelState.IsValid)
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
             {
-                var result = await _accountService.CreateUser(model);
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20)
+            };
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("GetAccounts", "Account");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-            }
-            return View(model);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            return StatusCode(200);
         }
 
         /// <summary>
-        /// [Get] Метод, регистрации
+        /// Добавление аккаунта пользователя
         /// </summary>
-        [Route("Account/Register")]
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// [Post] Метод, регистрации
-        /// </summary>
-        [Route("Account/Register")]
+        [Authorize(Roles = "Администратор")]
         [HttpPost]
-        public async Task<IActionResult> Register(UserRegisterViewModel model)
+        [Route("AddUser")]
+        public async Task<IActionResult> AddAccount(UserRegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _accountService.Register(model);
+            var result = await _accountService.Register(model);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-            }
-            return View(model);
+            return StatusCode(result.Succeeded ? 201 : 204);
         }
 
         /// <summary>
-        /// [Get] Метод, редактирования аккаунта
+        /// Редактирование аккаунта пользователя
         /// </summary>
-        [Route("Account/Edit")]
-        [Authorize(Roles = "Администратор, Модератор")]
-        [HttpGet]
-        public async Task<IActionResult> EditAccount(Guid id)
-        {
-            var model = await _accountService.EditAccount(id);
-
-            return View(model);
-        }
-
-        /// <summary>
-        /// [Post] Метод, редактирования аккаунта
-        /// </summary>
-        [Route("Account/Edit")]
-        [Authorize(Roles = "Администратор, Модератор")]
-        [HttpPost]
+        [Authorize(Roles = "Администратор")]
+        [HttpPatch]
+        [Route("EditUser")]
         public async Task<IActionResult> EditAccount(UserEditViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                await _accountService.EditAccount(model);
+            var result = await _accountService.EditAccount(model);
 
-                return RedirectToAction("GetAccounts", "Account");
-            }
-
-            else
-            {
-                return View(model);
-            }
+            return StatusCode(result.Succeeded ? 201 : 204);
         }
 
         /// <summary>
-        /// [Get] Метод, удаление аккаунта
+        /// Удаление аккаунта пользователя
         /// </summary>
-        [Route("Account/Remove")]
-        [Authorize(Roles = "Администратор, Модератор")]
-        [HttpGet]
-        public async Task<IActionResult> RemoveAccount(Guid id, bool confirm = true)
-        {
-            if (confirm)
-
-                await RemoveAccount(id);
-
-            return RedirectToAction("GetAccounts", "Account");
-        }
-
-        /// <summary>
-        /// [Post] Метод, удаление аккаунта
-        /// </summary>
-        [Route("Account/Remove")]
-        [Authorize(Roles = "Администратор, Модератор")]
-        [HttpPost]
+        [Authorize(Roles = "Администратор")]
+        [HttpDelete]
+        [Route("RemoveUser")]
         public async Task<IActionResult> RemoveAccount(Guid id)
         {
-            var account = await _accountService.GetAccount(id);
             await _accountService.RemoveAccount(id);
 
-            return RedirectToAction("GetAccounts", "Account");
+            return StatusCode(201);
         }
 
         /// <summary>
-        /// [Post] Метод, выхода из аккаунта
+        /// Получение всех аккаунтов пользователей
         /// </summary>
-        [Route("Account/Logout")]
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> LogoutAccount()
+        [Authorize(Roles = "Администратор")]
+        [HttpGet]
+        [Route("GetUsers")]
+        public Task<List<User>> GetAccounts()
         {
-            await _accountService.LogoutAccount();
+            var users = _accountService.GetAccounts();
 
-            return RedirectToAction("Index", "Home");
-        }
-
-        /// <summary>
-        /// [Get] Метод, получения всех пользователей
-        /// </summary>
-        [Route("Account/Get")]
-        [Authorize(Roles = "Администратор, Модератор")]
-        public async Task<IActionResult> GetAccounts()
-        {
-            var users = await _accountService.GetAccounts();
-
-            return View(users);
-        }
-
-        /// <summary>
-        /// [Get] Метод, получения одного пользователя по Id
-        /// </summary>
-        [Route("Account/Details")]
-        [Authorize(Roles = "Администратор, Модератор")]
-        public async Task<IActionResult> DetailsAccount(Guid id)
-        {
-            var model = await _accountService.GetAccount(id);
-
-            return View(model);
+            return Task.FromResult(users.Result);
         }
     }
 }
