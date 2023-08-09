@@ -5,7 +5,7 @@ using SNB.BLL.ViewModels.Tags;
 using SNB.BLL.ViewModels.Users;
 using SNB.DAL.Models;
 
-namespace SNBProject
+namespace SNB.API.Contracts
 {
     public class MappingProfile : Profile
     {
@@ -14,13 +14,14 @@ namespace SNBProject
             CreateMap<UserRegisterViewModel, User>()
                 .ForMember(x => x.Email, opt => opt.MapFrom(c => c.Email))
                 .ForMember(x => x.UserName, opt => opt.MapFrom(c => c.UserName));
-            CreateMap<UserEditViewModel, User>(); 
+
             CreateMap<CommentCreateViewModel, Comment>();
             CreateMap<CommentEditViewModel, Comment>();
             CreateMap<PostCreateViewModel, Post>();
             CreateMap<PostEditViewModel, Post>();
             CreateMap<TagCreateViewModel, Tag>();
             CreateMap<TagEditViewModel, Tag>();
+            CreateMap<UserEditViewModel, User>();
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SNB.BLL.ViewModels.Posts
+﻿namespace SNB.BLL.ViewModels.Posts
 {
+    /// <summary>
+    /// Модель отображения всех постов
+    /// </summary>
     public class ShowPostViewModel
     {
         public Guid Id { get; set; } = Guid.NewGuid();

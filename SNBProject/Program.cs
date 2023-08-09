@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SNB.BLL.Services;
 using SNB.BLL.Services.IServices;
@@ -48,6 +47,11 @@ namespace SNBProject
                 .AddTransient<IRoleService, RoleService>()
                 .AddTransient<ITagService, TagService>()
                 .AddControllersWithViews();
+            
+            // подключение logger
+            builder.Logging.ClearProviders()
+                .SetMinimumLevel(LogLevel.Trace)
+                .AddConsole();
 
             var app = builder.Build();
 
@@ -55,7 +59,6 @@ namespace SNBProject
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -64,6 +67,7 @@ namespace SNBProject
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
             app.MapControllerRoute(
                 name: "default",

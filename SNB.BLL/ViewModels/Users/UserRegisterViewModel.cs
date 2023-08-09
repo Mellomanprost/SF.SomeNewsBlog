@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SNB.BLL.ViewModels.Users
 {
+    /// <summary>
+    /// Модель регистрации пользователя
+    /// </summary>
     public class UserRegisterViewModel
     {
         [Required(ErrorMessage = "Поле Имя обязательно для заполнения")]
         [DataType(DataType.Text)]
-        [Display(Name = "Имя", Prompt = "Ввдеите имя")]
+        [Display(Name = "Имя", Prompt = "Введите имя")]
         public string? FirstName { get; set; }
 
         [Required(ErrorMessage = "Поле Фамилия обязательно для заполнения")]

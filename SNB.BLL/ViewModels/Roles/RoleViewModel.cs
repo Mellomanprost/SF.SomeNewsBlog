@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SNB.BLL.ViewModels.Roles
 {
+    /// <summary>
+    /// Модель роли
+    /// </summary>
     public class RoleViewModel
     {
         public string? Id { get; set; }

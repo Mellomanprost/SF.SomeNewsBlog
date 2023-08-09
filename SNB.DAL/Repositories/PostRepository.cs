@@ -25,13 +25,13 @@ namespace SNB.DAL.Repositories
 
         public async Task AddPost(Post post)
         {
-            _context.Posts.Add(post);
+            _context.Posts?.Add(post);
             await SaveChangesAsync();
         }
 
         public async Task UpdatePost(Post post)
         {
-            _context.Posts.Update(post);
+            _context.Posts?.Update(post);
             await SaveChangesAsync();
         }
 
@@ -40,7 +40,7 @@ namespace SNB.DAL.Repositories
             var post = GetPost(id);
             if (post != null)
             {
-                _context.Posts.Remove(post);
+                _context.Posts?.Remove(post);
                 await SaveChangesAsync();
             }
         }

@@ -1,14 +1,11 @@
 ﻿using SNB.BLL.ViewModels.Tags;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace SNB.BLL.ViewModels.Posts
 {
+    /// <summary>
+    /// Модель изменения поста
+    /// </summary>
     public class PostEditViewModel
     {
         public Guid Id { get; set; }
@@ -18,7 +15,7 @@ namespace SNB.BLL.ViewModels.Posts
         public string? Title { get; set; }
 
         [DataType(DataType.Text)]
-        [Display(Name = "Контент", Prompt = "Контент")]
+        [Display(Name = "Содержание", Prompt = "Содержание")]
         public string? Content { get; set; }
 
         [Display(Name = "Теги", Prompt = "Теги")]

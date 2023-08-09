@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SNB.BLL.ViewModels.Users
 {
+    /// <summary>
+    /// Модель создания пользователя
+    /// </summary>
     public class UserCreateViewModel
     {
         [Required(ErrorMessage = "Поле Имя обязательно для заполнения")]

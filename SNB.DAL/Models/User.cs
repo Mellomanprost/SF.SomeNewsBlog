@@ -6,7 +6,6 @@ namespace SNB.DAL.Models
     {
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
-        //public string Login { get; set; } = null!;
         public DateTime CreatedData { get; set; } = DateTime.Now;   // попробовать добавить
 
         public List<Post> Posts { get; set; } = new();

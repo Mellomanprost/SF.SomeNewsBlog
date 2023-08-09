@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Tags;
 using SNB.DAL.Models;
@@ -16,7 +11,6 @@ namespace SNB.BLL.Services
         private readonly ITagRepository _repo;
         private readonly IMapper _mapper;
 
-
         public TagService(ITagRepository repo, IMapper mapper)
         {
             _repo = repo;
@@ -27,7 +21,6 @@ namespace SNB.BLL.Services
         {
             var tag = _mapper.Map<Tag>(model);
             await _repo.AddTag(tag);
-
             return tag.Id;
         }
 
@@ -38,7 +31,6 @@ namespace SNB.BLL.Services
             {
                 Name = tag.Name
             };
-
             return result;
         }
 

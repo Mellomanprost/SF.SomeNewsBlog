@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SNB.BLL.Services.IServices;
 using SNB.BLL.ViewModels.Users;
+using NLog;
 
 namespace SNBProject.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public AccountController(IAccountService accountService)
         {
@@ -39,6 +40,7 @@ namespace SNBProject.Controllers
 
                 if (result.Succeeded)
                 {
+                    Logger.Info($"Осуществлен вход пользователя с адресом - {model.Email}");
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -73,6 +75,7 @@ namespace SNBProject.Controllers
 
                 if (result.Succeeded)
                 {
+                    Logger.Info($"Создан аккаунт, пользователем с правами администратора, с использованием адреса - {model.Email}");
                     return RedirectToAction("GetAccounts", "Account");
                 }
                 else
@@ -109,6 +112,7 @@ namespace SNBProject.Controllers
 
                 if (result.Succeeded)
                 {
+                    Logger.Info($"Создан аккаунт с использованием адреса - {model.Email}");
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -146,6 +150,7 @@ namespace SNBProject.Controllers
             if (ModelState.IsValid)
             {
                 await _accountService.EditAccount(model);
+                Logger.Info($"Аккаунт {model.UserName} был изменен");
 
                 return RedirectToAction("GetAccounts", "Account");
             }
@@ -180,8 +185,8 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> RemoveAccount(Guid id)
         {
             var account = await _accountService.GetAccount(id);
-
             await _accountService.RemoveAccount(id);
+            Logger.Info($"Аккаунт с id - {id} удален");
 
             return RedirectToAction("GetAccounts", "Account");
         }
@@ -195,6 +200,7 @@ namespace SNBProject.Controllers
         public async Task<IActionResult> LogoutAccount()
         {
             await _accountService.LogoutAccount();
+            Logger.Info($"Осуществлен выход из аккаунта");
 
             return RedirectToAction("Index", "Home");
         }
