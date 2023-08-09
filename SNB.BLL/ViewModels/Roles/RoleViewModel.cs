@@ -2,6 +2,9 @@
 
 namespace SNB.BLL.ViewModels.Roles
 {
+    /// <summary>
+    /// Модель роли
+    /// </summary>
     public class RoleViewModel
     {
         public string? Id { get; set; }

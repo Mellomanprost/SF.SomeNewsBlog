@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SNB.BLL.ViewModels.Users
 {
+    /// <summary>
+    /// Модель изменения данных пользователя
+    /// </summary>
     public class UserEditViewModel
     {
         [DataType(DataType.Text)]

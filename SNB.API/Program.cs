@@ -5,6 +5,10 @@ using SNB.API.Contracts;
 using SNB.DAL.Models;
 using SNB.DAL;
 using System.Reflection;
+using SNB.BLL.Services.IServices;
+using SNB.BLL.Services;
+using SNB.DAL.Repositories.IRepositories;
+using SNB.DAL.Repositories;
 
 namespace SNB.API
 {
@@ -25,10 +29,12 @@ namespace SNB.API
                 {
                     Version = "v1",
                     Title = "SomeNewsBlog API",
-                    Description = "Blog created by Mellomanprost",
+                    Description = "News Blog created by Mellomanprost",
                 });
-                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+                var basePath = AppContext.BaseDirectory;
+
+                var xmlPath = Path.Combine(basePath, "SNB.API.xml");
+                options.IncludeXmlComments(xmlPath);
             });
 
             var mapperConfig = new MapperConfiguration((v) =>
@@ -52,19 +58,30 @@ namespace SNB.API
                 })
                 .AddEntityFrameworkStores<BlogDbContext>();
 
+            // Services AddSingletons,Transient
+            builder.Services
+                .AddSingleton(mapper)
+                .AddTransient<IAccountService, AccountService>()
+                .AddTransient<ICommentService, CommentService>()
+                .AddTransient<ICommentRepository, CommentRepository>()
+                .AddTransient<IPostService, PostService>()
+                .AddTransient<IPostRepository, PostRepository>()
+                .AddTransient<IRoleService, RoleService>()
+                .AddTransient<ITagService, TagService>()
+                .AddTransient<ITagRepository, TagRepository>();
 
             builder.Services.AddAuthentication(optionts => optionts.DefaultScheme = "Cookies")
-    .AddCookie("Cookies", options =>
-    {
-        options.Events = new Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents
-        {
-            OnRedirectToLogin = redirectContext =>
-            {
-                redirectContext.HttpContext.Response.StatusCode = 401;
-                return Task.CompletedTask;
-            }
-        };
-    });
+                .AddCookie("Cookies", options =>
+                {
+                    options.Events = new Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = redirectContext =>
+                            {
+                                redirectContext.HttpContext.Response.StatusCode = 401;
+                                return Task.CompletedTask;
+                            }
+                    };
+                });
 
             var app = builder.Build();
 

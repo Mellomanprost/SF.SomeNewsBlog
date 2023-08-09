@@ -2,6 +2,9 @@
 
 namespace SNB.BLL.ViewModels.Users
 {
+    /// <summary>
+    /// Модель входа
+    /// </summary>
     public class UserLoginViewModel
     {
         [Required]

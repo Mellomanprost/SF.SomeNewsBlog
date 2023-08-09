@@ -1,5 +1,8 @@
 ﻿namespace SNB.BLL.ViewModels.Posts
 {
+    /// <summary>
+    /// Модель отображения всех постов
+    /// </summary>
     public class ShowPostViewModel
     {
         public Guid Id { get; set; } = Guid.NewGuid();

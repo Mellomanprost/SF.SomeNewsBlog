@@ -2,6 +2,9 @@
 
 namespace SNB.BLL.ViewModels.Tags
 {
+    /// <summary>
+    /// Модель тега
+    /// </summary>
     public class TagViewModel
     {
         public Guid Id { get; set; }

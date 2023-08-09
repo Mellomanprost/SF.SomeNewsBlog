@@ -27,9 +27,19 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Авторизация аккаунта пользователя
         /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///
+        ///     POST /Todo
+        ///     {
+        ///        "email": "test@gmail.com", 
+        ///        "password": "test123"
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
-        [Route("authenticate")]
-        public async Task<IActionResult> Authenticate(UserLoginViewModel model)
+        [Route("Authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] UserLoginViewModel model)
         {
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
                 throw new ArgumentNullException("Некорректный запрос");
@@ -69,9 +79,26 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Добавление аккаунта пользователя
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Для добавления аккаунта пользователя необходимы права администратора
+        /// 
+        /// Пример запроса:
+        ///
+        ///     POST /Todo
+        ///     {
+        ///        "firstName": "Test",
+        ///        "lastName": "Testov",
+        ///        "userName": "Tester",
+        ///        "email": "test@gmail.com", 
+        ///        "password": "test123",
+        ///        "passwordReg": "test123"
+        ///     }
+        ///
+        /// </remarks>
         [Authorize(Roles = "Администратор")]
         [HttpPost]
-        [Route("AddUser")]
+        [Route("AddAccount")]
         public async Task<IActionResult> AddAccount(UserRegisterViewModel model)
         {
             var result = await _accountService.Register(model);
@@ -82,9 +109,12 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Редактирование аккаунта пользователя
         /// </summary>
+        /// <remarks>
+        /// Для редактирования данных пользователя необходимы права администратора
+        /// </remarks>
         [Authorize(Roles = "Администратор")]
         [HttpPatch]
-        [Route("EditUser")]
+        [Route("EditAccount")]
         public async Task<IActionResult> EditAccount(UserEditViewModel model)
         {
             var result = await _accountService.EditAccount(model);
@@ -95,9 +125,12 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Удаление аккаунта пользователя
         /// </summary>
+        /// <remarks>
+        /// Для удаления пользователя необходимы права администратора
+        /// </remarks>
         [Authorize(Roles = "Администратор")]
         [HttpDelete]
-        [Route("RemoveUser")]
+        [Route("RemoveAccount")]
         public async Task<IActionResult> RemoveAccount(Guid id)
         {
             await _accountService.RemoveAccount(id);
@@ -108,9 +141,12 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Получение всех аккаунтов пользователей
         /// </summary>
+        /// <remarks>
+        /// Для получения всех аккаунтов пользователей необходимы права администратора
+        /// </remarks>
         [Authorize(Roles = "Администратор")]
         [HttpGet]
-        [Route("GetUsers")]
+        [Route("GetAccounts")]
         public Task<List<User>> GetAccounts()
         {
             var users = _accountService.GetAccounts();

@@ -2,6 +2,9 @@
 
 namespace SNB.BLL.ViewModels.Roles
 {
+    /// <summary>
+    /// Модель изменения роли
+    /// </summary>
     public class RoleEditViewModel
     {
         public Guid Id { get; set; }

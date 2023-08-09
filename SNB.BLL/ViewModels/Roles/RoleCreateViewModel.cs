@@ -2,6 +2,9 @@
 
 namespace SNB.BLL.ViewModels.Roles
 {
+    /// <summary>
+    /// Модель создания роли
+    /// </summary>
     public class RoleCreateViewModel
     {
         [Required(ErrorMessage = "Поле Название обязательно для заполнения")]

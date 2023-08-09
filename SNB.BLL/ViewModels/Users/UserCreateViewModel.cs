@@ -2,6 +2,9 @@
 
 namespace SNB.BLL.ViewModels.Users
 {
+    /// <summary>
+    /// Модель создания пользователя
+    /// </summary>
     public class UserCreateViewModel
     {
         [Required(ErrorMessage = "Поле Имя обязательно для заполнения")]

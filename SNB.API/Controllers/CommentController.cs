@@ -7,6 +7,8 @@ using SNB.DAL.Models;
 
 namespace SNB.API.Controllers
 {
+    [ApiController]
+    [Route("Controller")]
     public class CommentController : Controller
     {
         private readonly ICommentService _commentService;
@@ -19,9 +21,8 @@ namespace SNB.API.Controllers
         }
 
         /// <summary>
-        /// Получение всех комментариев поста
+        /// Получение всех комментариев к посту
         /// </summary>
-        [Authorize(Roles = "Администратор")]
         [HttpGet]
         [Route("GetPostComment")]
         public async Task<IEnumerable<Comment>> GetComments(Guid id)
@@ -34,7 +35,16 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Создание комментария к посту
         /// </summary>
-        [Authorize(Roles = "Администратор")]
+        /// <remarks>
+        /// Пример запроса:
+        ///
+        ///     POST /Todo
+        ///     {
+        ///        "content": "This is the best post in the world!",
+        ///        "author": "Tester",
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         [Route("CreateComment")]
         public async Task<IActionResult> CreateComment(CommentCreateViewModel model, Guid postId)
@@ -49,6 +59,9 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Редактирование комментария
         /// </summary>
+        /// <remarks>
+        /// Для редактирования комментария необходимы права администратора
+        /// </remarks>
         [Authorize(Roles = "Администратор")]
         [HttpPatch]
         [Route("EditComment")]
@@ -62,6 +75,9 @@ namespace SNB.API.Controllers
         /// <summary>
         /// Удаление комментария
         /// </summary>
+        /// <remarks>
+        /// Для удаления комментария необходимы права администратора
+        /// </remarks>
         [Authorize(Roles = "Администратор")]
         [HttpDelete]
         [Route("RemoveComment")]
